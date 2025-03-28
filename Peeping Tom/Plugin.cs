@@ -78,9 +78,9 @@ namespace PeepingTom {
 
         private void OnCommand(string command, string args) {
             if (args is "config" or "c") {
-                Ui.SettingsWindow.IsOpen = true;
+                Ui.SettingsWindow.IsOpen = !Ui.SettingsWindow.IsOpen;
             } else {
-                Ui.MainWindow.IsOpen = true;
+                Ui.MainWindow.IsOpen = !Ui.MainWindow.IsOpen;
             }
         }
 
