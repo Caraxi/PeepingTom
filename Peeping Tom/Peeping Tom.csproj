@@ -1,9 +1,9 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Project Sdk="Microsoft.NET.Sdk">
     <PropertyGroup>
-        <TargetFramework>net9-windows</TargetFramework>
+        <TargetFramework>net10.0-windows</TargetFramework>
         <RootNamespace>PeepingTom</RootNamespace>
-        <Version>1.7.22</Version>
+        <Version>1.8.0</Version>
         <LangVersion>latest</LangVersion>
         <Nullable>enable</Nullable>
         <AssemblyName>PeepingTom</AssemblyName>
@@ -59,7 +59,7 @@
         </Reference>
     </ItemGroup>
     <ItemGroup>
-        <PackageReference Include="DalamudPackager" Version="13.0.0" />
+        <PackageReference Include="DalamudPackager" Version="14.0.1" />
         <PackageReference Include="Fody" Version="6.9.1" PrivateAssets="all" />
         <PackageReference Include="NAudio.Core" Version="2.2.1"/>
         <PackageReference Include="NAudio.Wasapi" Version="2.2.1"/>
