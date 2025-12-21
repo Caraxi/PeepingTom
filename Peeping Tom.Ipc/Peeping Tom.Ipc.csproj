@@ -1,13 +1,11 @@
-<Project Sdk="Microsoft.NET.Sdk">
+<Project Sdk="Dalamud.NET.Sdk/14.0.1">
 
     <PropertyGroup>
-        <TargetFramework>net9.0-windows</TargetFramework>
+        <TargetFramework>net10.0-windows</TargetFramework>
         <Version>2.0.0</Version>
         <Nullable>enable</Nullable>
         <RootNamespace>PeepingTom.Ipc</RootNamespace>
-    </PropertyGroup>
-
-    <PropertyGroup>
+        <Use_DalamudPackager>false</Use_DalamudPackager>
         <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
         <GenerateDocumentationFile>true</GenerateDocumentationFile>
         <PackageId>PeepingTom.Ipc</PackageId>
@@ -17,36 +15,4 @@
         <Description>Types for IPC with the Dalamud plugin Peeping Tom.</Description>
         <PackageLicenseExpression>EUPL-1.2</PackageLicenseExpression>
     </PropertyGroup>
-
-    <PropertyGroup>
-        <DalamudLibPath>$(AppData)\XIVLauncher\addon\Hooks\dev</DalamudLibPath>
-    </PropertyGroup>
-
-    <PropertyGroup Condition="'$([System.Runtime.InteropServices.RuntimeInformation]::IsOSPlatform($([System.Runtime.InteropServices.OSPlatform]::Linux)))'">
-        <DalamudLibPath>$(DALAMUD_HOME)</DalamudLibPath>
-    </PropertyGroup>
-
-    <PropertyGroup Condition="'$(IsCI)' == 'true'">
-        <DalamudLibPath>$(HOME)/dalamud</DalamudLibPath>
-    </PropertyGroup>
-
-    <ItemGroup>
-        <Reference Include="Dalamud">
-            <HintPath>$(DalamudLibPath)\Dalamud.dll</HintPath>
-            <Private>false</Private>
-        </Reference>
-        <Reference Include="Lumina">
-            <HintPath>$(DalamudLibPath)\Lumina.dll</HintPath>
-            <Private>false</Private>
-        </Reference>
-        <Reference Include="Lumina.Excel">
-            <HintPath>$(DalamudLibPath)\Lumina.Excel.dll</HintPath>
-            <Private>false</Private>
-        </Reference>
-        <Reference Include="Newtonsoft.Json">
-            <HintPath>$(DalamudLibPath)\Newtonsoft.Json.dll</HintPath>
-            <Private>false</Private>
-        </Reference>
-    </ItemGroup>
-
 </Project>

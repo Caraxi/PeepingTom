@@ -40,7 +40,7 @@ namespace PeepingTom {
 
             if (!Plugin.Config.MarkTargeting) return;
 
-            var player = Service.ClientState.LocalPlayer;
+            var player = Service.ObjectTable.LocalPlayer;
             if (player == null) return;
 
             var targeting = Plugin.Watcher.CurrentTargeters
@@ -75,7 +75,7 @@ namespace PeepingTom {
         }
 
         private IPlayerCharacter? GetCurrentTarget() {
-            var player = Service.ClientState.LocalPlayer;
+            var player = Service.ObjectTable.LocalPlayer;
             if (player == null) {
                 return null;
             }

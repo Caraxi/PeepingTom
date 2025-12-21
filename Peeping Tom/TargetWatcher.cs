@@ -1,9 +1,12 @@
 ﻿using NAudio.Wave;
-using Resourcer;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
+using System.IO;
 using System.Linq;
+using System.Net.Mime;
+using System.Reflection;
+using System.Resources;
 using System.Threading;
 using Dalamud.Game.ClientState.Objects.Enums;
 using Dalamud.Game.ClientState.Objects.SubKinds;
@@ -56,7 +59,7 @@ namespace PeepingTom {
         }
 
         private void Update() {
-            var player = Service.ClientState.LocalPlayer;
+            var player = Service.ObjectTable.LocalPlayer;
             if (player == null) {
                 return;
             }
@@ -164,7 +167,8 @@ namespace PeepingTom {
                 WaveStream reader;
                 try {
                     if (Plugin.Config.SoundPath == null) {
-                        reader = new WaveFileReader(Resource.AsStream("Resources/target.wav"));
+                        var wavLocation = Path.Join(Service.Interface.AssemblyLocation.Directory!.FullName, "target.wav");
+                        reader = new WaveFileReader(new FileStream(wavLocation, FileMode.Open, FileAccess.Read, FileShare.ReadWrite));
                     } else {
                         reader = new MediaFoundationReader(Plugin.Config.SoundPath);
                     }
