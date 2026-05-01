@@ -76,7 +76,7 @@ internal class MainWindow : Window {
         if (targeting.Count + (previousTargeters?.Count ?? 0) > 1) {
             var dict = new Dictionary<ulong, IGameObject>();
             foreach (var obj in Service.ObjectTable) {
-                if (dict.ContainsKey(obj.GameObjectId) || obj.ObjectKind != ObjectKind.Player) {
+                if (dict.ContainsKey(obj.GameObjectId) || obj.ObjectKind != ObjectKind.Pc) {
                     continue;
                 }
 
