@@ -57,6 +57,9 @@
     <data name="SettingsFilterLogSelf" xml:space="preserve">
         <value>Log yourself</value>
     </data>
+    <data name="SettingsFilterLogBlacklistedPlayers" xml:space="preserve">
+        <value>Log blacklisted players</value>
+    </data>
     <data name="SettingsBehaviourTab" xml:space="preserve">
         <value>Behaviour</value>
     </data>

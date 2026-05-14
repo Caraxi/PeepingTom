@@ -30,6 +30,7 @@ namespace PeepingTom {
         public bool LogAlliance { get; set; }
         public bool LogInCombat { get; set; }
         public bool LogSelf { get; set; }
+        public bool LogBlacklistedPlayers { get; set; }
 
         public bool FocusTargetOnHover { get; set; } = true;
         public bool OpenExamine { get; set; }

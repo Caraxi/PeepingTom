@@ -150,6 +150,15 @@ namespace PeepingTom.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Log blacklisted players.
+        /// </summary>
+        internal static string SettingsFilterLogBlacklistedPlayers {
+            get {
+                return ResourceManager.GetString("SettingsFilterLogBlacklistedPlayers", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Log targeters engaged in combat.
         /// </summary>
         internal static string SettingsFilterLogCombat {

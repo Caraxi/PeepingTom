@@ -104,6 +104,12 @@ public class SettingsWindow : Window {
                 Plugin.Config.Save();
             }
 
+            var logBlacklistedPlayers = Plugin.Config.LogBlacklistedPlayers;
+            if (ImGui.Checkbox(Language.SettingsFilterLogBlacklistedPlayers, ref logBlacklistedPlayers)) {
+                Plugin.Config.LogBlacklistedPlayers = logBlacklistedPlayers;
+                Plugin.Config.Save();
+            }
+
             ImGui.EndTabItem();
         }
 

@@ -4,16 +4,14 @@ using System.Collections.Generic;
 using System.Diagnostics;
 using System.IO;
 using System.Linq;
-using System.Net.Mime;
-using System.Reflection;
-using System.Resources;
 using System.Threading;
 using Dalamud.Game.ClientState.Objects.Enums;
 using Dalamud.Game.ClientState.Objects.SubKinds;
 using Dalamud.Game.ClientState.Objects.Types;
 using Dalamud.Game.Text;
 using Dalamud.Plugin.Services;
-using FFXIVClientStructs.FFXIV.Client.Game.Control;
+using FFXIVClientStructs.FFXIV.Client.Game.Character;
+using FFXIVClientStructs.FFXIV.Client.UI.Info;
 using PeepingTom.Ipc;
 using PeepingTom.Resources;
 
@@ -125,6 +123,7 @@ namespace PeepingTom {
                 .Where(actor => Plugin.Config.LogAlliance || !InAlliance(actor))
                 .Where(actor => Plugin.Config.LogInCombat || !InCombat(actor))
                 .Where(actor => Plugin.Config.LogSelf || actor.GameObjectId != player.GameObjectId)
+                .Where(actor => Plugin.Config.LogBlacklistedPlayers || !IsBlacklisted(actor))
                 .Select(actor => new Targeter(actor))
                 .ToArray();
         }
@@ -135,6 +134,27 @@ namespace PeepingTom {
 
         private static bool InAlliance(IGameObject actor) => actor is IPlayerCharacter pc && pc.StatusFlags.HasFlag(StatusFlags.AllianceMember);
 
+        private record BlockResult(DateTime Time, InfoProxyBlacklist.BlockResultType BlockResultType);
+        private static Dictionary<ulong, BlockResult> _blockCache = [];
+        
+        private static unsafe bool IsBlacklisted(IGameObject gameObject) {
+            if (gameObject is not IPlayerCharacter) return false;
+            var battleChara = (BattleChara*)gameObject.Address;
+            try {
+                if (!_blockCache.TryGetValue(battleChara->ContentId, out var result)) {
+                    result = new (DateTime.Now, InfoProxyBlacklist.Instance()->GetBlockResultType(battleChara->AccountId, battleChara->ContentId));
+                    _blockCache.TryAdd(battleChara->ContentId, result);
+                }
+
+                if (DateTime.Now - result.Time > TimeSpan.FromSeconds(30)) _blockCache.Remove(battleChara->ContentId);
+                return result.BlockResultType is InfoProxyBlacklist.BlockResultType.BlockedByAccountId or InfoProxyBlacklist.BlockResultType.BlockedByContentId;
+            } catch (Exception ex) {
+                Service.Log.Error(ex, "Error reading blacklist");
+                _blockCache.TryAdd(battleChara->ContentId, new BlockResult(DateTime.Now, InfoProxyBlacklist.BlockResultType.NotBlocked));
+                return false;
+            }
+        }
+        
         private bool CanPlaySound() {
             if (!Plugin.Config.PlaySoundOnTarget) {
                 return false;
